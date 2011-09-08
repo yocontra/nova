@@ -1,19 +1,21 @@
-**Nothing here yet**
-
-
-## Installation
-    
-To install APPNAME, use [npm](http://github.com/isaacs/npm):
-
-        $ npm install -g APPNAME
+**Commodo is a library for running NodeJS code in the browser.**
 
 ## Usage
 
-Nothing here yet
+Commodo only aims to be compliant with WebKit. If you want to be compatible with ghetto old browsers, use [Modernizr](http://www.modernizr.com/) and [es5-shim](https://github.com/kriskowal/es5-shim).
+Using Commodo is as simple as including commodo.min.js on your web page. Please not that Commodo is a newborn baby and only supports certain NodeJS functionality.
+
+## Support
+
+Commodo currently supports the following NodeJS modules:
+
+```
+None yet :(
+```
 
 ## Examples
 
-You can view further examples in the [example folder.](https://github.com/wearefractal/APPNAME/tree/master/examples)
+You can view further examples in the [example folder.](https://github.com/wearefractal/commodo/tree/master/examples)
 
 ## Contributors
 
