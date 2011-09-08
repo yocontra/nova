@@ -1,4 +1,4 @@
-require.module 'sys', (module, exports, require) ->
+require.module 'fs', (module, exports, require) ->
   module.exports = 
   
     # Any file writes/deletes/creations will take place in local storage

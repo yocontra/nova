@@ -1,0 +1,3 @@
+#!/bin/sh
+
+coffee --watch --join commodo.js --compile ./src/*.coffee ./src/modules/*.coffee

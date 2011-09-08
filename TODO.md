@@ -2,8 +2,10 @@
 
 ### Minor
 
-  * Nothing here yet
+  * Complete all NodeJS modules (obviously)
+  * Set up some form of testing
 
 ### Major
 
-  * Nothing here yet
+  * Perfect build process
+  * Try to get rid of all 3rd party dependencies (especially jQuery)
