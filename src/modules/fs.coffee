@@ -3,10 +3,13 @@ require.module 'fs', (module, exports, require) ->
   
     # Any file writes/deletes/creations will take place in local storage
     # Any file reads will try local storage and then ajax request from base URL
-      
-    readFile: (filename, encoding, callback) ->
-      # If encoding is specified then this function returns a string. Otherwise it returns a buffer.
-      callback err, data
+    
+    readFile: (filename, callback) ->
+      superagent.get filename, (res) ->
+        if !res.body?
+          console.log 'ERROR - ' + res
+        else
+          callback res
         
     writeFile: (filename, data, encoding, callback) ->
       encoding ?= 'utf8'
