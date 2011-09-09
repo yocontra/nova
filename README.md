@@ -1,13 +1,13 @@
-**Commodo is a library for running NodeJS code in the browser.**
+**Nova is a library for running NodeJS code in the browser.**
 
 ## Usage
 
-Commodo only aims to be compliant with WebKit. If you want to be compatible with ghetto old browsers, use [Modernizr](http://www.modernizr.com/) and [es5-shim](https://github.com/kriskowal/es5-shim).
-Using Commodo is as simple as including commodo.min.js on your web page. Please not that Commodo is a newborn baby and only supports certain NodeJS functionality.
+Nova only aims to be compliant with WebKit. If you want to be compatible with ghetto old browsers, use [Modernizr](http://www.modernizr.com/) and [es5-shim](https://github.com/kriskowal/es5-shim).
+Using Nova is as simple as including nova.js on your web page. Please not that Nova is a newborn baby and only supports certain NodeJS functionality.
 
 ## Support
 
-Commodo currently supports the following NodeJS modules:
+Nova currently supports the following NodeJS modules:
 
 ```
 None yet :(
@@ -15,7 +15,7 @@ None yet :(
 
 ## Examples
 
-You can view further examples in the [example folder.](https://github.com/wearefractal/commodo/tree/master/examples)
+You can view further examples in the [example folder.](https://github.com/wearefractal/nova/tree/master/examples)
 
 ## Contributors
 
