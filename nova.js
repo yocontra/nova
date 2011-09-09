@@ -7,8 +7,14 @@
   });
   require.module('fs', function(module, exports, require) {
     return module.exports = {
-      readFile: function(filename, encoding, callback) {
-        return callback(err, data);
+      readFile: function(filename, callback) {
+        return superagent.get(filename, function(res) {
+          if (!(res.body != null)) {
+            return console.log('ERROR - ' + res);
+          } else {
+            return callback(res);
+          }
+        });
       },
       writeFile: function(filename, data, encoding, callback) {
         if (encoding == null) {
