@@ -6,11 +6,13 @@ require.register 'fs', (module, exports, require) ->
     
     readFile: (filename, callback) ->
       superagent.get filename, (res) ->
-        if !res.body?
-          console.log 'ERROR - ' + res
+        if res.text
+          callback res.text
         else
-          callback res
+          console.log 'Error! No content found for ' + filename
         
     writeFile: (filename, data, encoding, callback) ->
       encoding ?= 'utf8'
       callback err
+
+# require('fs').readFile '/bin/index.html', (txt) -> console.log txt

@@ -67,10 +67,10 @@
     return module.exports = {
       readFile: function(filename, callback) {
         return superagent.get(filename, function(res) {
-          if (!(res.body != null)) {
-            return console.log('ERROR - ' + res);
+          if (res.text) {
+            return callback(res.text);
           } else {
-            return callback(res);
+            return console.log('Error! No content found for ' + filename);
           }
         });
       },
