@@ -1,0 +1,5 @@
+#!/usr/bin/env coffee
+
+fusker = require 'fusker'
+fusker.http.createServer 8080
+console.log 'Visit localhost:8080/bin for testing!'
