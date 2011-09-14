@@ -1,5 +1,5 @@
 (function() {
-  var require;
+  var fs, require;
   require = function(path) {
     var module;
     module = require.modules[path];
@@ -29,52 +29,79 @@
         if (typeof localStorage !== "undefined" && localStorage !== null) {
           contents = localStorage.getItem(filename);
           if (contents != null) {
-            return callback(JSON.parse(contents));
+            callback(null, JSON.parse(contents));
+            return;
           }
         }
-        return superagent.get(filename, function(res) {
+        superagent.get(filename, function(res) {
           if (res.text) {
-            return callback(res.text);
+            callback(null, res.text);
           } else {
-            return callback(null);
+            callback('failed to read file', null);
           }
         });
       },
       readFileSync: function(filename) {
         if (!localStorage) {
           throw 'browser does not support localStorage';
-        } else {
-          return JSON.parse(localStorage.getItem(filename));
         }
+        return JSON.parse(localStorage.getItem(filename));
       },
       writeFile: function(filename, data, encoding, callback) {
-        if (!callback) {
-          callback = encoding;
-        }
+        callback || (callback = encoding);
         if (!localStorage) {
-          return callback('browser does not support localStorage');
-        } else {
-          return callback(localStorage.setItem(filename, JSON.stringify(data)));
+          callback('browser does not support localStorage');
+        }
+        localStorage.setItem(filename, JSON.stringify(data));
+        if (callback != null) {
+          callback(null);
         }
       },
       writeFileSync: function(filename, data, encoding) {
-        if (!localstorage) {
+        if (!localStorage) {
           throw 'browser does not support localStorage';
+        }
+        localStorage.setItem(filename, JSON.stringify(data));
+      },
+      rename: function(oldf, newf, callback) {
+        var contents;
+        if (!localStorage) {
+          throw 'browser does not support localStorage';
+        }
+        contents = localStorage.getItem(oldf);
+        if (contents != null) {
+          localStorage.removeItem(oldf);
+          localStorage.setItem(newf, contents);
+          if (callback != null) {
+            return callback(null);
+          }
         } else {
-          return localStorage.setItem(filename, JSON.stringify(data));
+          if (callback != null) {
+            return callback('file ' + oldf + ' does not exist');
+          }
         }
       }
     };
   });
-  /*
-  console.log 'Starting FS tests'
-  fs = require 'fs'
-  fs.readFile '/bin/index.html', (txt) -> console.log txt
-  fs.writeFile 'config.json', {hey:'test',what:'dood'}, (err) -> 
-    if err 
-      console.log err  
-  fs.readFile 'config.json', (txt) -> console.log txt
-  */
+  console.log('Starting FS tests');
+  fs = require('fs');
+  fs.readFile('/bin/index.html', function(err, txt) {
+    return console.log(txt);
+  });
+  fs.writeFile('config.json', {
+    hey: 'test',
+    what: 'dood'
+  }, function(err) {
+    if (err) {
+      return console.log(err);
+    }
+  });
+  fs.readFile('config.json', function(err, txt) {
+    return console.log(txt);
+  });
+  fs.rename('config.json', 'cfg.js', function(err) {
+    return console.log(fs.readFileSync('cfg.js'));
+  });
   require.register('readline', function(module, exports, require) {
     return module.exports = {
       question: function(query, callback) {
