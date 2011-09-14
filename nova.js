@@ -1,59 +1,18 @@
 (function() {
   var require;
-  require = function(p) {
-    var module, path;
-    path = require.resolve(p);
+  require = function(path) {
+    var module;
     module = require.modules[path];
     if (!module) {
-      throw "couldn't find module for: " + p;
+      throw 'module ' + path + ' does not exists';
     }
     if (!module.exports) {
       module.exports = {};
-      module.call(module.exports, module, module.exports, require.bind(path));
+      module.call(module.exports, module, module.exports, require(path));
     }
     return module.exports;
   };
   require.modules = {};
-  require.resolve = function(path) {
-    if (require.modules[path]) {
-      return path;
-    }
-    if (!path.match(/\.js$/)) {
-      if (require.modules[path + ".js"]) {
-        return path + ".js";
-      }
-      if (require.modules[path + "/index.js"]) {
-        return path + "/index.js";
-      }
-      if (require.modules[path + "/index"]) {
-        return path + "/index";
-      }
-    }
-  };
-  require.bind = function(path) {
-    return function(p) {
-      var fullPath, i, part, parts;
-      if (!p.match(/^\./)) {
-        return require(p);
-      }
-      fullPath = path.split("/");
-      fullPath.pop();
-      parts = p.split("/");
-      i = 0;
-      while (i < parts.length) {
-        part = parts[i];
-        if (part === "..") {
-          fullPath.pop();
-        } else {
-          if (part !== ".") {
-            fullPath.push(part);
-          }
-        }
-        i++;
-      }
-      return require(fullPath.join("/"));
-    };
-  };
   require.register = function(path, fn) {
     return require.modules[path] = fn;
   };
@@ -81,6 +40,9 @@
         return callback(err);
       }
     };
+  });
+  require('fs').readFile('/bin/index.html', function(txt) {
+    return console.log(txt);
   });
   require.register('readline', function(module, exports, require) {
     return module.exports = {

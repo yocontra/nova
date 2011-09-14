@@ -15,4 +15,4 @@ require.register 'fs', (module, exports, require) ->
       encoding ?= 'utf8'
       callback err
 
-# require('fs').readFile '/bin/index.html', (txt) -> console.log txt
+require('fs').readFile '/bin/index.html', (txt) -> console.log txt
