@@ -29,7 +29,7 @@
         if (typeof localStorage !== "undefined" && localStorage !== null) {
           contents = localStorage.getItem(filename);
           if (contents != null) {
-            return callback(contents);
+            return callback(JSON.parse(contents));
           }
         }
         return superagent.get(filename, function(res) {
@@ -44,7 +44,7 @@
         if (!localStorage) {
           throw 'browser does not support localStorage';
         } else {
-          return localStorage.getItem(filename);
+          return JSON.parse(localStorage.getItem(filename));
         }
       },
       writeFile: function(filename, data, encoding, callback) {

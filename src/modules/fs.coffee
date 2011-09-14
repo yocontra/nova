@@ -7,7 +7,7 @@ require.register 'fs', (module, exports, require) ->
       if localStorage?
         contents = localStorage.getItem filename
         if contents?
-          return callback contents
+          return callback JSON.parse(contents)
       superagent.get filename, (res) ->
         if res.text
           callback res.text
@@ -16,7 +16,7 @@ require.register 'fs', (module, exports, require) ->
             
     readFileSync: (filename) ->
       if !localStorage then throw 'browser does not support localStorage'
-      else localStorage.getItem filename
+      else JSON.parse localStorage.getItem(filename)
         
     writeFile: (filename, data, encoding, callback) ->
       callback = encoding unless callback
@@ -26,6 +26,8 @@ require.register 'fs', (module, exports, require) ->
     writeFileSync: (filename, data, encoding) -> 
       if !localstorage then throw 'browser does not support localStorage' 
       else localStorage.setItem filename, JSON.stringify(data)
+
+      
 
 # Tests
 ###
