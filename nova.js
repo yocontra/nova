@@ -1,5 +1,5 @@
 (function() {
-  var fs, require;
+  var require;
   require = function(path) {
     var module;
     module = require.modules[path];
@@ -83,25 +83,14 @@
       }
     };
   });
-  console.log('Starting FS tests');
-  fs = require('fs');
-  fs.readFile('/bin/index.html', function(err, txt) {
-    return console.log(txt);
-  });
-  fs.writeFile('config.json', {
-    hey: 'test',
-    what: 'dood'
-  }, function(err) {
-    if (err) {
-      return console.log(err);
-    }
-  });
-  fs.readFile('config.json', function(err, txt) {
-    return console.log(txt);
-  });
-  fs.rename('config.json', 'cfg.js', function(err) {
-    return console.log(fs.readFileSync('cfg.js'));
-  });
+  /*
+  console.log 'Starting FS tests'
+  fs = require 'fs'
+  fs.readFile '/bin/index.html', (err, txt) -> console.log txt
+  fs.writeFile 'config.json', {hey:'test',what:'dood'}, (err) -> if err then console.log err  
+  fs.readFile 'config.json', (err, txt) -> console.log txt
+  fs.rename 'config.json', 'cfg.js', (err) -> console.log fs.readFileSync 'cfg.js'
+  */
   require.register('readline', function(module, exports, require) {
     return module.exports = {
       question: function(query, callback) {

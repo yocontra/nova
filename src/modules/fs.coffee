@@ -35,7 +35,8 @@ require.register 'fs', (module, exports, require) ->
       if !localStorage then throw 'browser does not support localStorage' 
       localStorage.setItem filename, JSON.stringify(data)
       return
-
+        
+    # watchFile: (filename, options, callback) ->
               
     rename: (oldf, newf, callback) ->
       if !localStorage then throw 'browser does not support localStorage' 
@@ -50,9 +51,11 @@ require.register 'fs', (module, exports, require) ->
           callback 'file ' + oldf + ' does not exist'
 
 # Tests
+###
 console.log 'Starting FS tests'
 fs = require 'fs'
 fs.readFile '/bin/index.html', (err, txt) -> console.log txt
 fs.writeFile 'config.json', {hey:'test',what:'dood'}, (err) -> if err then console.log err  
 fs.readFile 'config.json', (err, txt) -> console.log txt
 fs.rename 'config.json', 'cfg.js', (err) -> console.log fs.readFileSync 'cfg.js'
+###
