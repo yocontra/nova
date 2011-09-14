@@ -25,25 +25,56 @@
   require.register('fs', function(module, exports, require) {
     return module.exports = {
       readFile: function(filename, callback) {
+        var contents;
+        if (typeof localStorage !== "undefined" && localStorage !== null) {
+          contents = localStorage.getItem(filename);
+          if (contents != null) {
+            return callback(contents);
+          }
+        }
         return superagent.get(filename, function(res) {
           if (res.text) {
             return callback(res.text);
           } else {
-            return console.log('Error! No content found for ' + filename);
+            return callback(null);
           }
         });
       },
-      writeFile: function(filename, data, encoding, callback) {
-        if (encoding == null) {
-          encoding = 'utf8';
+      readFileSync: function(filename) {
+        if (!localStorage) {
+          throw 'browser does not support localStorage';
+        } else {
+          return localStorage.getItem(filename);
         }
-        return callback(err);
+      },
+      writeFile: function(filename, data, encoding, callback) {
+        if (!callback) {
+          callback = encoding;
+        }
+        if (!localStorage) {
+          return callback('browser does not support localStorage');
+        } else {
+          return callback(localStorage.setItem(filename, JSON.stringify(data)));
+        }
+      },
+      writeFileSync: function(filename, data, encoding) {
+        if (!localstorage) {
+          throw 'browser does not support localStorage';
+        } else {
+          return localStorage.setItem(filename, JSON.stringify(data));
+        }
       }
     };
   });
-  require('fs').readFile('/bin/index.html', function(txt) {
-    return console.log(txt);
-  });
+  /*
+  console.log 'Starting FS tests'
+  fs = require 'fs'
+  fs.readFile '/bin/index.html', (txt) -> console.log txt
+  fs.writeFile 'config.json', {hey:'test',what:'dood'}, (err) -> 
+    if err 
+      console.log err  
+  fs.readFile 'config.json', (txt) -> console.log txt
+  */
   require.register('readline', function(module, exports, require) {
     return module.exports = {
       question: function(query, callback) {
