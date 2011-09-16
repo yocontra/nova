@@ -44,24 +44,14 @@ require.register 'fs', (module, exports, require) ->
     # watchFile: (filename, options, callback) ->
     
     # Only supports localStorage           
-    rename: (oldf, newf, callback) ->
+    rename: (filename, newname, callback) ->
       if !localStorage then throw LOCAL_STORAGE_NOT_FOUND
-      contents = localStorage.getItem oldf
+      contents = localStorage.getItem filename
       if contents?
-        localStorage.removeItem oldf
-        localStorage.setItem newf, contents
+        localStorage.removeItem filename
+        localStorage.setItem newname, contents
         if callback?
           callback null
       else
         if callback?
-          callback new Error('ENOENT, The system cannot find the file specified. ' + oldf)
-
-# Tests
-###
-console.log 'Starting FS tests'
-fs = require 'fs'
-fs.readFile '/bin/index.html', (err, txt) -> console.log txt
-fs.writeFile 'config.json', {hey:'test',what:'dood'}, (err) -> if err then console.log err  
-fs.readFile 'config.json', (err, txt) -> console.log txt
-fs.rename 'config.json', 'cfg.js', (err) -> console.log fs.readFileSync 'cfg.js'
-###
+          callback new Error('ENOENT, The system cannot find the file specified. ' + filename)

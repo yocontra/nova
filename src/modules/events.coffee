@@ -1,4 +1,4 @@
-require.register "events", (module, exports, require) ->
+require.register 'events', (module, exports, require) ->
   
   EventEmitter = ->
     @callbacks = {}
@@ -57,32 +57,3 @@ require.register "events", (module, exports, require) ->
     return @
   
   module.exports.EventEmitter = EventEmitter
-  
-# Tests
-###
-console.log 'Starting Events tests'
-EventEmitter = require('events').EventEmitter
-testobj = new EventEmitter
-EventEmitter.call testobj
-testobj.emit 'nobody listening :('
-testobj.on 'testevt1', (err, data) ->
-  if err?
-    console.error err
-  console.log data
-testobj.emit 'testevt1', null, 'fake data'
-testobj.emit 'testevt1', 'fake error', null
-  
-testobj.once 'testevt2', (err, data) ->
-  if err?
-    console.error err
-  console.log data
-testobj.emit 'testevt2', null, 'fake data'
-testobj.emit 'testevt2', 'fake error', null
-console.log testobj.listeners('testevt2')
-console.log testobj.listeners('testevt1') 
-  
-testobj.removeAllListeners 'testevt1'
-testobj.removeAllListeners 'testevt2'
-testobj.emit 'testevt1', null, 'fake data'
-testobj.emit 'testevt2', 'fake error', null
-###

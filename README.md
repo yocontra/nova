@@ -11,7 +11,8 @@ Nova currently supports the following NodeJS modules:
 ```
 events - 100%
 util - 100%
-sys - 25%
+assert - 100%
+sys - 100%
 readline - 85% (All console management functionality does nothing though)
 fs - 50%
 ```

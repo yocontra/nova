@@ -5,11 +5,11 @@
     var module;
     module = require.modules[name];
     if (!module) {
-      throw 'module ' + name + ' does not exist';
+      throw 'module "' + name + '" does not exist';
     }
     if (!module.exports) {
       module.exports = {};
-      module.call(module.exports, module, module.exports, require(name));
+      module.call(module.exports, module, module.exports, require);
     }
     return module.exports;
   };
@@ -17,13 +17,142 @@
   require.register = function(name, fn) {
     return require.modules[name] = fn;
   };
+  window.require = require;
   require.register('nova', function(module, exports, require) {
     return module.exports = {
       version: '0.0.1',
       author: 'Contra'
     };
   });
-  require.register("events", function(module, exports, require) {
+  require.register('assert', function(module, exports, require) {
+    var AssertionError, expectedException, fail, util;
+    util = require('util');
+    AssertionError = function(options) {
+      this.name = 'AssertionError';
+      this.actual = options.actual;
+      this.expected = options.expected;
+      this.operator = options.operator;
+      this.message = options.message || [JSON.stringify(this.actual), this.operator, JSON.stringify(this.expected)].join(' ');
+      if (Error.captureStackTrace) {
+        console.log('capturing trace');
+        return Error.captureStackTrace(this, options.stackStartFunction || fail);
+      }
+    };
+    util.inherits(AssertionError, Error);
+    AssertionError.prototype = Error.prototype;
+    AssertionError.prototype.toString = function() {
+      if (this.message != null) {
+        return this.name + ': ' + this.message;
+      } else {
+        return [this.name + ':', JSON.stringify(this.actual), this.operator, JSON.stringify(this.expected)].join(' ');
+      }
+    };
+    fail = function(actual, expected, message, operator, stackStartFunction) {
+      throw new AssertionError({
+        message: message,
+        actual: actual,
+        expected: expected,
+        operator: operator,
+        stackStartFunction: stackStartFunction
+      });
+    };
+    expectedException = function(actual, expected) {
+      if (!actual && !expected) {
+        return false;
+      } else if (expected instanceof RegExp) {
+        return expected.test(actual);
+      } else if (actual instanceof expected) {
+        return true;
+      } else if (expected.call({}, actual)) {
+        return true;
+      } else {
+        return false;
+      }
+    };
+    return module.exports = {
+      AssertionError: AssertionError,
+      fail: fail,
+      ok: function(value, message) {
+        if (!value) {
+          return fail(value, true, message, '==', module.exports.ok);
+        }
+      },
+      equal: function(actual, expected, message) {
+        if (actual !== expected) {
+          return fail(actual, expected, message, '==', module.exports.equal);
+        }
+      },
+      notEqual: function(actual, expected, message) {
+        if (actual === expected) {
+          return fail(actual, expected, message, '!=', module.exports.notEqual);
+        }
+      },
+      deepEqual: function(actual, expected, message) {
+        if (actual !== expected) {
+          return fail(actual, expected, message, 'deepEqual', module.exports.deepEqual);
+        }
+      },
+      notDeepEqual: function(actual, expected, message) {
+        if (actual === expected) {
+          return fail(actual, expected, message, 'notDeepEqual', module.exports.notDeepEqual);
+        }
+      },
+      strictEqual: function(actual, expected, message) {
+        if (actual !== expected) {
+          return fail(actual, expected, message, '===', module.exports.strictEqual);
+        }
+      },
+      notStrictEqual: function(actual, expected, message) {
+        if (actual === expected) {
+          return fail(actual, expected, message, '!==', module.exports.notStrictEqual);
+        }
+      },
+      throws: function(block, expected, message) {
+        var actual;
+        if (typeof expected === 'string') {
+          message = expected;
+          expected = null;
+        }
+        try {
+          block();
+        } catch (e) {
+          actual = e;
+        }
+        message = (expected && expected.name ? ' (' + expected.name + ').' : '.') + (message ? ' ' + message : '.');
+        if (!actual) {
+          fail('Missing expected exception' + message);
+        }
+        if (!expectedException(actual, expected)) {
+          throw actual;
+        }
+      },
+      doesNotThrow: function(block, expected, message) {
+        var actual;
+        if (typeof expected === 'string') {
+          message = expected;
+          expected = null;
+        }
+        try {
+          block();
+        } catch (e) {
+          actual = e;
+        }
+        message = (expected && expected.name ? ' (' + expected.name + ').' : '.') + (message ? ' ' + message : '.');
+        if (actual && expectedException(actual, expected)) {
+          fail('Got unwanted exception' + message);
+        }
+        if (actual) {
+          throw actual;
+        }
+      },
+      ifError: function(err) {
+        if (err) {
+          throw err;
+        }
+      }
+    };
+  });
+  require.register('events', function(module, exports, require) {
     var EventEmitter;
     EventEmitter = function() {
       this.callbacks = {};
@@ -107,33 +236,6 @@
     };
     return module.exports.EventEmitter = EventEmitter;
   });
-  /*
-  console.log 'Starting Events tests'
-  EventEmitter = require('events').EventEmitter
-  testobj = new EventEmitter
-  EventEmitter.call testobj
-  testobj.emit 'nobody listening :('
-  testobj.on 'testevt1', (err, data) ->
-    if err?
-      console.error err
-    console.log data
-  testobj.emit 'testevt1', null, 'fake data'
-  testobj.emit 'testevt1', 'fake error', null
-    
-  testobj.once 'testevt2', (err, data) ->
-    if err?
-      console.error err
-    console.log data
-  testobj.emit 'testevt2', null, 'fake data'
-  testobj.emit 'testevt2', 'fake error', null
-  console.log testobj.listeners('testevt2')
-  console.log testobj.listeners('testevt1') 
-    
-  testobj.removeAllListeners 'testevt1'
-  testobj.removeAllListeners 'testevt2'
-  testobj.emit 'testevt1', null, 'fake data'
-  testobj.emit 'testevt2', 'fake error', null
-  */
   require.register('fs', function(module, exports, require) {
     var LOCAL_STORAGE_NOT_FOUND;
     LOCAL_STORAGE_NOT_FOUND = new Error('browser does not support localStorage');
@@ -177,34 +279,26 @@
         }
         localStorage.setItem(filename, JSON.stringify(data));
       },
-      rename: function(oldf, newf, callback) {
+      rename: function(filename, newname, callback) {
         var contents;
         if (!localStorage) {
           throw LOCAL_STORAGE_NOT_FOUND;
         }
-        contents = localStorage.getItem(oldf);
+        contents = localStorage.getItem(filename);
         if (contents != null) {
-          localStorage.removeItem(oldf);
-          localStorage.setItem(newf, contents);
+          localStorage.removeItem(filename);
+          localStorage.setItem(newname, contents);
           if (callback != null) {
             return callback(null);
           }
         } else {
           if (callback != null) {
-            return callback(new Error('ENOENT, The system cannot find the file specified. ' + oldf));
+            return callback(new Error('ENOENT, The system cannot find the file specified. ' + filename));
           }
         }
       }
     };
   });
-  /*
-  console.log 'Starting FS tests'
-  fs = require 'fs'
-  fs.readFile '/bin/index.html', (err, txt) -> console.log txt
-  fs.writeFile 'config.json', {hey:'test',what:'dood'}, (err) -> if err then console.log err  
-  fs.readFile 'config.json', (err, txt) -> console.log txt
-  fs.rename 'config.json', 'cfg.js', (err) -> console.log fs.readFileSync 'cfg.js'
-  */
   require.register('readline', function(module, exports, require) {
     return module.exports = {
       question: function(query, callback) {
