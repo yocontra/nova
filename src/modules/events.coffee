@@ -9,12 +9,12 @@ require.register "events", (module, exports, require) ->
   EventEmitter::setMaxListeners = (n) -> @maxListeners = n
     
   EventEmitter::addListener = (event, fn) ->
+    throw new Error 'addListener only takes instances of Function' unless typeof fn is 'function'
     @callbacks[event] or= []
+    @callbacks[event].push fn
     total = @callbacks[event].length
     if total > @maxListeners > 0
       console.error 'warning: possible EventEmitter memory leak detected. '+total+' listeners added. Use emitter.setMaxListeners() to increase limit.'
-    else
-      @callbacks[event].push fn
     return @   
   
   EventEmitter::on = EventEmitter::addListener  
@@ -25,13 +25,17 @@ require.register "events", (module, exports, require) ->
     return @
     
   EventEmitter::removeListener = (event, fn) ->
+    throw new Error 'addListener only takes instances of Function' unless typeof fn is 'function'
     if @callbacks[event]?
       @callbacks[event] = x for x in @callbacks[event] where x != fn
     return @
     
   EventEmitter::removeAllListeners = (event) ->
-    if @callbacks[event]?
-      delete @callbacks[event]
+    if event?
+      if @callbacks[event]?
+        delete @callbacks[event]
+    else
+      @callbacks = {}
     return @ 
       
   EventEmitter::emit = (event, args...) ->
@@ -43,6 +47,13 @@ require.register "events", (module, exports, require) ->
           if @callbacks[event].length is 0
             delete @callbacks[event]
             break
+    else if event is 'error'
+      if !args[0]?
+        throw new Error "Uncaught, unspecified 'error' event."
+      else if args[0] instanceof Error
+        throw args[0]
+      else
+        throw new Error args[0]
     return @
   
   module.exports.EventEmitter = EventEmitter

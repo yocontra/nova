@@ -37,12 +37,14 @@
     };
     EventEmitter.prototype.addListener = function(event, fn) {
       var total, _base, _ref;
+      if (typeof fn !== 'function') {
+        throw new Error('addListener only takes instances of Function');
+      }
       (_base = this.callbacks)[event] || (_base[event] = []);
+      this.callbacks[event].push(fn);
       total = this.callbacks[event].length;
       if ((total > (_ref = this.maxListeners) && _ref > 0)) {
         console.error('warning: possible EventEmitter memory leak detected. ' + total + ' listeners added. Use emitter.setMaxListeners() to increase limit.');
-      } else {
-        this.callbacks[event].push(fn);
       }
       return this;
     };
@@ -54,6 +56,9 @@
     };
     EventEmitter.prototype.removeListener = function(event, fn) {
       var x, _i, _len, _ref;
+      if (typeof fn !== 'function') {
+        throw new Error('addListener only takes instances of Function');
+      }
       if (this.callbacks[event] != null) {
         _ref = this.callbacks[event](where(x !== fn));
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
@@ -64,8 +69,12 @@
       return this;
     };
     EventEmitter.prototype.removeAllListeners = function(event) {
-      if (this.callbacks[event] != null) {
-        delete this.callbacks[event];
+      if (event != null) {
+        if (this.callbacks[event] != null) {
+          delete this.callbacks[event];
+        }
+      } else {
+        this.callbacks = {};
       }
       return this;
     };
@@ -84,6 +93,14 @@
               break;
             }
           }
+        }
+      } else if (event === 'error') {
+        if (!(args[0] != null)) {
+          throw new Error("Uncaught, unspecified 'error' event.");
+        } else if (args[0] instanceof Error) {
+          throw args[0];
+        } else {
+          throw new Error(args[0]);
         }
       }
       return this;
