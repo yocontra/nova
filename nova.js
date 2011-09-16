@@ -196,17 +196,32 @@
     };
   });
   require.register('sys', function(module, exports, require) {
-    return module.exports = {
-      puts: console.log,
-      inspect: console.log
-    };
+    return module.exports = require('util');
   });
   require.register('util', function(module, exports, require) {
     return module.exports = {
-      debug: console.log,
+      print: console.log,
+      puts: console.log,
+      debug: console.debug,
+      error: console.error,
+      inspect: JSON.stringify,
+      p: function() {
+        return console.log(JSON.stringify(arguments));
+      },
       log: console.log,
-      inspect: function(obj) {
-        console.log(JSON.stringify(obj));
+      pump: function() {
+        return console.error('util.pump is not supported in nova at this time');
+      },
+      inherits: function(ctor, superCtor) {
+        ctor.super_ = superCtor;
+        return ctor.prototype = Object.create(superCtor.prototype, {
+          constructor: {
+            value: ctor,
+            enumerable: false,
+            writable: true,
+            configurable: true
+          }
+        });
       }
     };
   });
