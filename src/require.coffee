@@ -1,12 +1,12 @@
 # CommonJS require() functionality
-require = (path) ->
-  module = require.modules[path]
-  throw 'module '+path+' does not exists' unless module
+require = (name) ->
+  module = require.modules[name]
+  throw 'module ' + name + ' does not exist' unless module
   unless module.exports
     module.exports = {}
-    module.call module.exports, module, module.exports, require(path)
+    module.call module.exports, module, module.exports, require(name)
   return module.exports
     
 require.modules = {}
 
-require.register = (path, fn) -> require.modules[path] = fn
+require.register = (name, fn) -> require.modules[name] = fn
