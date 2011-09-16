@@ -2,10 +2,12 @@
 
 ### Minor
 
-  * Complete all NodeJS modules (obviously)
-  * Set up some form of testing
+  * fs - chmod, stat, watching, directory, and stream
+  * readline - route all non-working console methods to null
+  * sys - map out all functionality
 
 ### Major
 
-  * Perfect build process
-  * Try to get rid of all 3rd party dependencies (especially jQuery)
+  * fs - construct file/directory models with access times and all for localstorage. spoof any unavailable data
+  * http - write async/sync ajax functionality
+  * Replace superagent with built-in http module

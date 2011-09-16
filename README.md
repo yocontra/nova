@@ -10,7 +10,11 @@ Using Nova is as simple as including nova.js on your web page. Please not that N
 Nova currently supports the following NodeJS modules:
 
 ```
-None yet :(
+events - 100%
+util - 100%
+sys - 25%
+readline - 85% (All console management functionality does nothing though)
+fs - 50%
 ```
 
 ## Examples
