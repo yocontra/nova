@@ -1,4 +1,3 @@
 require.register 'sys', (module, exports, require) ->
-  module.exports = 
-    puts: console.log
-    inspect: console.log
+  module.exports = require 'util'
+  # As of the latest node.js sys has been replaced with util
