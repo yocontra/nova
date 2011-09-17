@@ -23,7 +23,7 @@ You can view further examples in the [example folder.](https://github.com/wearef
 
 ## Dependencies
 
-Nova only aims to be compliant with WebKit. If you want nova to work with older browsers, use [Modernizr](http://www.modernizr.com/) and [es5-shim](https://github.com/kriskowal/es5-shim) or something similar.
+Nova only aims to be compliant with WebKit. If you want nova to work with older browsers you can check out [this list by Modernizr](https://github.com/Modernizr/Modernizr/wiki/HTML5-Cross-browser-Polyfills)
 Developers will need coffee-script and uglify-js installed globally via npm to build nova and fusker to run the test server.
 
 ## Contributors
