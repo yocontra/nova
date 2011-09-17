@@ -1,12 +1,20 @@
-**Nova is a library for running NodeJS code in the browser.**
+**Nova is a library for running NodeJS code in the browser. Nova is written in coffeescript, deal with it.**
 
 ## Usage
 
-Using Nova is as simple as including nova.js on your web page. Please not that Nova is a newborn baby and only supports certain NodeJS functionality.
+Using nova is as simple as including nova.js on your web page. Please note that nova is a newborn baby and only supports certain NodeJS functionality. Obviously we can't run an HTTP server from IE6 and we can't initiate TCP connections from your Netscape. (or can we?)
+
+## Size
+
+When developing libraries for the browser, size matters. nova is currently 4.3k minified and 1.1k gzipped. NodeJS functionality in under 10k? That's cool. For comparison, jQuery is currently 91.6k. You can always pick and choose which modules are included in nova so your size may be even smaller.
+
+## Plugins
+
+Not only does nova plan on mapping most NodeJS functionality to the browser, we also plan on extending it! This means full support for DOM manipulation and other browser-only goodies. Say goodbye to jQuery! You can also easily write your own modules for nova (examples in the example folder) that extend or bring new functionality to it entirely. 
 
 ## Support
 
-Nova currently supports the following NodeJS modules:
+nova currently comes with the following NodeJS modules:
 
 ```
 events - 100%
@@ -14,7 +22,8 @@ util - 100%
 assert - 100%
 sys - 100%
 readline - 85% (All console management functionality does nothing though)
-fs - 50%
+fs - 50% (LocalStorage filesystem models need refinement)
+http - 25% (Based on superagent AJAX which needs to go)
 ```
 
 ## Examples
@@ -23,7 +32,7 @@ You can view further examples in the [example folder.](https://github.com/wearef
 
 ## Dependencies
 
-Nova only aims to be compliant with WebKit. If you want nova to work with older browsers you can check out [this list by Modernizr](https://github.com/Modernizr/Modernizr/wiki/HTML5-Cross-browser-Polyfills)
+As of now, nova only aims to be compliant with the latest browsers. A seperate build will be available that is jammed packed with polyfills and shims at some point in the future. If you want nova to work with older browsers THIS MOMENT you can check out [this page by Modernizr](https://github.com/Modernizr/Modernizr/wiki/HTML5-Cross-browser-Polyfills) that has a massive list of shims/polyfills.
 Developers will need coffee-script and uglify-js installed globally via npm to build nova and fusker to run the test server.
 
 ## Contributors
