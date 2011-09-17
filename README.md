@@ -10,7 +10,7 @@ When developing libraries for the browser, size matters. nova is currently 4.3k 
 
 ## Plugins
 
-Not only does nova plan on mapping most NodeJS functionality to the browser, we also plan on extending it! This means full support for DOM manipulation and other browser-only goodies. Say goodbye to jQuery! You can also easily write your own modules for nova (examples in the example folder) that extend or bring new functionality to it entirely. 
+Not only does nova plan on mapping most NodeJS functionality to the browser, we also plan on extending it! This means full support for DOM manipulation and other browser-only goodies. Say goodbye to jQuery! You can also easily write your own modules for nova (check the example folder) that extend or bring new functionality to it entirely. 
 
 ## Support
 
@@ -32,7 +32,7 @@ You can view further examples in the [example folder.](https://github.com/wearef
 
 ## Dependencies
 
-As of now, nova only aims to be compliant with the latest browsers. A seperate build will be available that is jammed packed with polyfills and shims at some point in the future. If you want nova to work with older browsers THIS MOMENT you can check out [this page by Modernizr](https://github.com/Modernizr/Modernizr/wiki/HTML5-Cross-browser-Polyfills) that has a massive list of shims/polyfills.
+As of now, nova only aims to be compliant with the latest browsers. A separate build will be available that is jammed packed with polyfills and shims at some point in the future. If you want nova to work with older browsers THIS MOMENT you can check out [this page by Modernizr](https://github.com/Modernizr/Modernizr/wiki/HTML5-Cross-browser-Polyfills) that has a massive list of shims/polyfills.
 Developers will need coffee-script and uglify-js installed globally via npm to build nova and fusker to run the test server.
 
 ## Contributors
