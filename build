@@ -1,4 +1,11 @@
 #!/bin/sh
 
-coffee --watch --join nova.js --compile ./src/require.coffee ./src/nova.coffee ./src/modules/*.coffee
-uglifyjs --unsafe -nc --reserved-names "require" -o nova.min.js nova.js ./lib/superagent.js
+IN=nova.js
+OUT=nova.min.js
+
+coffee --watch --join "$IN" --compile ./src/require.coffee ./src/nova.coffee ./src/modules/*.coffee
+
+SIZE_MIN=$(uglifyjs "$IN" --extra --unsafe --reserved-names "require" | tee "$OUT" | wc -c)
+SIZE_GZIP=$(gzip -nfc --best "$OUT" | wc -c)
+
+echo $SIZE_MIN bytes minified, $SIZE_GZIP bytes gzipped
