@@ -4,14 +4,6 @@
 
 Using nova is as simple as including nova.js on your web page. Please note that nova is a newborn baby and only supports certain NodeJS functionality. Obviously we can't run an HTTP server from IE6 and we can't initiate TCP connections from your Netscape. (or can we?)
 
-## Size
-
-When developing libraries for the browser, size matters. nova is currently 4.3k minified and 1.1k gzipped. NodeJS functionality in under 10k? That's cool. For comparison, jQuery is currently 91.6k. You can always pick and choose which modules are included in nova so your size may be even smaller.
-
-## Plugins
-
-Not only does nova plan on mapping most NodeJS functionality to the browser, we also plan on extending it! This means full support for DOM manipulation and other browser-only goodies. Say goodbye to jQuery! You can also easily write your own modules for nova (check the example folder) that extend or bring new functionality to it entirely. 
-
 ## Support
 
 nova currently comes with the following NodeJS modules:
@@ -25,6 +17,14 @@ readline - 85% (All console management functionality does nothing though)
 fs - 50% (LocalStorage filesystem models need refinement)
 http - 25% (Based on superagent AJAX which needs to go)
 ```
+
+## Size
+
+When developing libraries for the browser, size matters. nova is currently 4.3k minified and 1.1k gzipped. NodeJS functionality in under 10k? That's cool. For comparison, jQuery is currently 91.6k. You can always pick and choose which modules are included in nova so your size may be even smaller.
+
+## Plugins
+
+Not only does nova plan on mapping most NodeJS functionality to the browser, we also plan on extending it! This means full support for DOM manipulation and other browser-only goodies. Say goodbye to jQuery! You can also easily write your own modules for nova (check the example folder) that extend or bring new functionality to it entirely. 
 
 ## Examples
 
