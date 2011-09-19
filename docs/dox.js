@@ -28,7 +28,7 @@ function dox(obj, name) {
       content += ', Arguments: ' + args;
     }
 
-    content += ')</i></h3><br><pre>' + code + '</pre></li>';
+    content += ')</i></h3><br><code>' + code + '</code></li>';
   }
   document.getElementById('sidenav').innerHTML += '<h3 id="namehead">' + name + '</h3><ul id="links">' + sidenav + '<br/></ul>';
   document.getElementById('content').innerHTML += '<h2>' + name + '</h2>' + content;
