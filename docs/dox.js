@@ -1,5 +1,5 @@
 function dox(obj, name) {
-  var keys = Object.keys(obj).sort();
+  var keys = Object.keys(obj);
   var prettyPrint = (typeof prettyPrintOne === 'function');
 
   if (!document.getElementById('sidenav')) {
