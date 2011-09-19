@@ -24,7 +24,7 @@ When developing libraries for the browser, size matters. nova is currently 4.3k 
 
 ## Plugins
 
-Not only does nova plan on mapping most NodeJS functionality to the browser, we also plan on extending it! This means full support for DOM manipulation and other browser-only goodies. Say goodbye to jQuery! You can also easily write your own modules for nova (check the example folder) that extend or bring new functionality to it entirely. 
+Not only does nova plan on mapping most NodeJS functionality to the browser, we also plan on extending it! This means modules for popular DOM manipulation libraries and other browser-only goodies. You can also easily write your own modules for nova (check the example folder) that extend or bring new functionality to it entirely. 
 
 ## Examples
 
